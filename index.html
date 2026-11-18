@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10263c">
+<title>コイル積付け早見表・本数振り分け v1.0</title>
+<style>
+:root{--navy:#10263c;--blue:#1677b8;--pale:#eaf4fb;--bg:#f2f6f9;--txt:#172b3c;--muted:#617386;--line:#d9e4eb;--green:#147d62;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:var(--txt)}button,input,select{font:inherit;color:var(--txt)}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #69b7f2;outline-offset:2px}header{background:var(--navy);color:white;padding:22px max(16px,env(safe-area-inset-left)) 15px}header .wrap{max-width:840px;margin:auto}header h1{font-size:1.3rem;letter-spacing:.015em;margin:0}header p{color:#c7d9e8;font-size:.82rem;margin:5px 0 0}.shell{max-width:840px;margin:0 auto;padding:16px 14px 50px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:17px}.tab{background:white;border:1px solid var(--line);padding:13px 8px;border-radius:12px;font-weight:700;color:#33536b}.tab[aria-selected=true]{background:var(--navy);color:white;border-color:var(--navy)}.panel{display:none}.panel.active{display:block}.card{background:white;border:1px solid var(--line);border-radius:15px;padding:17px;margin-bottom:14px;box-shadow:0 3px 14px #19344708}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}h2{font-size:1.07rem;margin:0}h3{font-size:1rem;margin:0}.hint,.fine{color:var(--muted);font-size:.83rem;margin:6px 0}.form-label{font-weight:700;font-size:.89rem;margin-bottom:8px;display:block}.preset{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.preset button{background:#f6f9fb;border:1px solid #d5e1e9;border-radius:10px;min-height:45px;font-weight:700}.preset button.active{background:#d8ecfa;color:#064b76;border-color:#1677b8}.input-row{display:flex;align-items:center;gap:8px;margin-top:11px}.input-row label{font-size:.85rem;font-weight:700;white-space:nowrap}.input-row input{min-width:0;width:100%;border:1px solid #b9cbd7;border-radius:10px;padding:10px 12px;background:white}.unit{color:var(--muted);font-weight:700}.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.stat{background:#f0f6fa;border-radius:10px;padding:10px}.stat strong{display:block;font-size:1.15rem}.stat small{color:#526b7c}.count-group{overflow:hidden;border:1px solid var(--line);border-radius:13px;margin:11px 0;background:#fff}.group-title{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#e9f2f8;padding:10px 13px}.group-title strong{font-size:1rem}.group-title span{color:#4e687c;font-size:.77rem}.entry{display:grid;grid-template-columns:70px 1fr auto;gap:9px;align-items:center;padding:13px;border-top:1px solid var(--line)}.entry .type{font-size:1.22rem;font-weight:850;color:#144c72}.entry .parts{font-size:.83rem;color:#5d7283}.entry .mm{font-size:1.2rem;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}.entry .mm small{font-size:.72rem;font-weight:500;color:var(--muted);margin-left:3px}.tag{display:inline-block;padding:2px 7px;border-radius:5px;font-size:.72rem;background:#eff5f8;color:#476075;margin-top:2px}.explain{border-left:3px solid #76a9c9;padding:8px 12px;background:#f4f9fc;font-size:.83rem;color:#385568}.select-input{width:100%;border:1px solid #b9cbd7;border-radius:10px;padding:12px;background:#fff;color:#172b3c;color-scheme:light;font:inherit}.select-input option{color:#172b3c;background:#fff}input{color:#172b3c;background:#fff;color-scheme:light}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field-grid input{width:100%;border:1px solid #b9cbd7;border-radius:10px;padding:12px}.pill-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.check-pill{display:flex;justify-content:center;align-items:center;gap:5px;background:#f6f9fb;border:1px solid #d5e1e9;border-radius:10px;min-height:46px;font-size:.92rem;font-weight:700}.check-pill:has(input:checked){background:#e2f2fd;border-color:#2889c5;color:#095184}.check-pill input{accent-color:#1471ad}.button-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.button{border-radius:9px;border:1px solid #bad2e2;background:white;color:#155985;font-weight:700;padding:9px 13px}.button.primary{background:var(--navy);color:#fff;border-color:var(--navy)}.result{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}.result .head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.result .head strong{font-size:1.02rem}.zero{font-size:.78rem;color:var(--green);font-weight:700;background:#e4f5ef;padding:3px 8px;border-radius:20px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:#edf3f7;border-radius:7px;padding:5px 9px;font-size:.86rem}.chip b{color:#154e72}.error{color:#a33426;font-size:.84rem;margin:8px 0}.note{font-size:.84rem;border-radius:12px;padding:12px 13px;background:#fff8e8;border:1px solid #efddb0;color:#73551a;margin-top:15px}.empty{background:#f5f8fa;border-radius:10px;padding:16px;color:#576d7c}.summary{font-size:.85rem;color:#4e6575}.footer{font-size:.76rem;color:#6c8190;padding:10px 2px} @media(max-width:430px){.shell{padding:12px 10px 40px}.card{padding:13px}.entry{grid-template-columns:61px 1fr auto;gap:5px;padding:10px}.entry .mm{font-size:1.05rem}.entry .type{font-size:1.08rem}.entry .parts{font-size:.76rem}.pill-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.field-grid{gap:8px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>⚓ コイル積付けサポート</h1><p>現場の計算を、もっと早く・わかりやすく</p></div></header>
+<main class="shell">
+  <div class="tabs" role="tablist" aria-label="機能選択">
+    <button class="tab" id="tab-reference" role="tab" aria-controls="reference" aria-selected="true">📏 外径早見表</button>
+    <button class="tab" id="tab-allocation" role="tab" aria-controls="allocation" aria-selected="false">🧮 本数振り分け</button>
+  </div>
+  <section class="panel active" id="reference" role="tabpanel" aria-labelledby="tab-reference">
+    <div class="card"><h2>船幅を選択</h2><p class="hint">よく使う船幅はワンタップ。その他の船幅は直接入力できます。</p>
+      <div class="preset" id="presets"></div>
+      <div class="input-row"><label for="width">船幅を入力</label><input id="width" type="number" step="0.1" min="1" max="30" inputmode="decimal" value="10" aria-label="船幅をメートルで入力"><span class="unit">m</span></div>
+      <div class="stats"><div class="stat"><small>選択した船幅</small><strong id="selected-width">10 m</strong></div><div class="stat"><small>表示する形式</small><strong id="count-types">20 種類</strong></div></div>
+    </div>
+    <div class="card"><div class="section-head"><h2>合計本数別・基準外径</h2></div>
+      <p class="hint">上段（キー）と下段を合わせた「合計本数」でまとめています。外径は計算上の目安です。</p>
+      <div id="reference-results" aria-live="polite"></div>
+    </div>
+  </section>
+  <section class="panel" id="allocation" role="tabpanel" aria-labelledby="tab-allocation">
+    <div class="card"><h2>コイルの本数を振り分ける</h2><p class="hint">選択した「1列あたりの合計本数」を使って、余り0本となる組み合わせを探します。</p>
+      <div class="field-grid"><div><label for="total" class="form-label">コイル総本数</label><input id="total" type="number" value="121" min="1" max="2000" inputmode="numeric"></div><div><label for="base-size" class="form-label">中心となる1列の本数</label><select id="base-size" class="select-input" aria-label="中心となる1列の本数"></select></div></div>
+      <p class="hint">例：6本積みを中心にしたいなら「6本」を指定。基準となる列をできるだけ多く使う候補から表示します。</p>
+      <div style="margin-top:12px;max-width:250px"><label for="max-results" class="form-label">表示候補数</label><input id="max-results" type="number" value="12" min="1" max="30" inputmode="numeric" style="width:100%;border:1px solid #b9cbd7;border-radius:10px;padding:12px"></div>
+      <label class="form-label" style="margin-top:17px">使いたい1列の合計本数（複数選択）</label><div id="size-options" class="pill-grid"></div>
+      <div class="button-row"><button type="button" class="button" id="select-all">すべて選択</button><button type="button" class="button" id="select-sample">5・6・7・9・10本</button><button type="button" class="button primary" id="calculate">組み合わせを計算</button></div>
+      <div class="explain" style="margin-top:14px">中心となる1列の本数をできるだけ多く使う候補から順に表示します。実際の外径別の本数は入力していないため、余り0本は全体本数の算術結果です。</div>
+    </div>
+    <div class="card"><div class="section-head"><h2>余り0本の組み合わせ</h2></div><div id="allocation-results" aria-live="polite"></div></div>
+  </section>
+  <div class="note"><strong>安全上の注意</strong><br>本アプリは外径の基準値および本数の算術的な組み合わせを表示する補助ツールです。積み付け可能・安全であることを判定するものではありません。実作業では会社・船舶の手順、荷役計画、コイルの重量・形状、支持・固定条件および責任者の判断を優先してください。</div>
+  <div class="footer">完成版 v1.0 ｜ 入力データは送信されず、計算はこの端末内で行われます。</div>
+</main>
+<script>
+'use strict';
+const fmt=new Intl.NumberFormat('ja-JP');
+const widths=[7.5,7.8,9,9.3,9.5,9.6,10,10.2];
+const $=id=>document.getElementById(id);
+const presetEl=$('presets');
+widths.forEach(w=>{const b=document.createElement('button');b.type='button';b.textContent=w+'m';b.dataset.width=String(w);b.addEventListener('click',()=>{$('width').value=w;renderReference();});presetEl.append(b)});
+const formTypes=[{total:4,upper:1,lower:3,label:'1/3',denom:3.5}];
+for(let total=5;total<=14;total++){
+  formTypes.push({total,upper:2,lower:total-2,label:`2/${total-2}`,denom:(total-2)+1});
+  formTypes.push({total,upper:1,lower:total-1,label:`1/${total-1}`,denom:(total-1)+.5});
+}
+function renderReference(){
+  const w=Number($('width').value),valid=Number.isFinite(w)&&w>=1&&w<=30;
+  document.querySelectorAll('[data-width]').forEach(b=>b.classList.toggle('active',Number(b.dataset.width)===w));
+  $('selected-width').textContent=valid?w+' m':'—';
+  $('count-types').textContent=valid?formTypes.length+' 種類':'—';
+  const dst=$('reference-results');dst.replaceChildren();
+  if(!valid){const p=document.createElement('p');p.className='error';p.textContent='船幅は1〜30mの範囲で入力してください。';dst.append(p);return}
+  for(let total=4;total<=14;total++){
+    const group=document.createElement('div');group.className='count-group';
+    const heading=document.createElement('div');heading.className='group-title';heading.innerHTML=`<strong>合計 ${total} 本</strong><span>下段＋キーで${total}本</span>`;group.append(heading);
+    for(const f of formTypes.filter(x=>x.total===total)){
+      const mm=Math.round(w*1000/f.denom);
+      const entry=document.createElement('div');entry.className='entry';
+      entry.innerHTML=`<div class="type">${f.label}</div><div class="parts">下段 ${f.lower}本 ＋ キー ${f.upper}本</div><div class="mm">${fmt.format(mm)}<small>mm</small></div>`;
+      group.append(entry);
+    }
+    dst.append(group);
+  }
+}
+$('width').addEventListener('input',renderReference);
+const sizeOptions=$('size-options');
+for(let k=4;k<=14;k++){
+  const label=document.createElement('label');label.className='check-pill';
+  const input=document.createElement('input');input.type='checkbox';input.value=k;input.checked=[5,6,7,9,10].includes(k);label.append(input,document.createTextNode(k+'本'));sizeOptions.append(label);
+}
+const baseSelect=$('base-size');
+for(let k=4;k<=14;k++){const option=document.createElement('option');option.value=k;option.textContent=k+'本';option.selected=k===6;baseSelect.append(option)}
+function setSelection(sizes){sizeOptions.querySelectorAll('input').forEach(el=>el.checked=sizes.includes(Number(el.value)));calculate()}
+$('select-all').onclick=()=>setSelection(Array.from({length:11},(_,i)=>i+4));
+$('select-sample').onclick=()=>setSelection([5,6,7,9,10]);
+$('calculate').onclick=calculate;
+$('total').addEventListener('input',calculate);
+$('max-results').addEventListener('input',calculate);
+$('base-size').addEventListener('change',()=>{const b=Number(baseSelect.value);const cb=Array.from(sizeOptions.querySelectorAll('input')).find(x=>Number(x.value)===b);if(cb)cb.checked=true;calculate()});
+sizeOptions.addEventListener('change',calculate);
+// Find a minimum-row way to compose each remainder using non-base row sizes.
+// Then try each possible number of base rows, so a base-heavy candidate cannot
+// disappear from a bounded global search.
+function otherRemainders(total,sizes){
+  const dp=Array(total+1).fill(null);dp[0]={rows:0,counts:Array(sizes.length).fill(0)};
+  for(let sum=1;sum<=total;sum++){
+    for(let i=0;i<sizes.length;i++){
+      const size=sizes[i],prev=sum>=size?dp[sum-size]:null;
+      if(!prev)continue;
+      const rows=prev.rows+1;
+      if(!dp[sum]||rows<dp[sum].rows){const counts=prev.counts.slice();counts[i]++;dp[sum]={rows,counts}}
+    }
+  }
+  return dp;
+}
+function findCombosWithBase(total,sizes,base,limit){
+  const others=sizes.filter(n=>n!==base);
+  const dp=otherRemainders(total,others);
+  const candidates=[];
+  for(let baseRows=0;baseRows<=Math.floor(total/base);baseRows++){
+    const remaining=total-baseRows*base;
+    const remainderSolution=dp[remaining];
+    if(!remainderSolution)continue;
+    const counts=sizes.map(n=>n===base?baseRows:remainderSolution.counts[others.indexOf(n)]);
+    candidates.push({counts,rows:baseRows+remainderSolution.rows,baseRows});
+  }
+  candidates.sort((a,b)=>b.baseRows-a.baseRows||a.rows-b.rows);
+  return {solutions:candidates.slice(0,limit),candidateCount:candidates.length};
+}
+function calculate(){
+  const total=Number($('total').value),limit=Number($('max-results').value),base=Number(baseSelect.value);
+  const sizes=Array.from(sizeOptions.querySelectorAll('input:checked'),x=>Number(x.value)).sort((a,b)=>a-b);
+  const dst=$('allocation-results');dst.replaceChildren();
+  if(!Number.isInteger(total)||total<1||total>2000||!Number.isInteger(limit)||limit<1||limit>30||sizes.length===0||!sizes.includes(base)){
+    dst.innerHTML='<p class="error">総本数は1〜2,000、表示候補数は1〜30の整数を入力し、中心となる本数も候補として選択してください。</p>';return;
+  }
+  const {solutions,candidateCount}=findCombosWithBase(total,sizes,base,limit);
+  if(!solutions.length){dst.innerHTML='<div class="empty">選択した本数では、余り0本の組み合わせが見つかりません。選択する本数を増やしてみてください。</div>';return}
+  const intro=document.createElement('p');intro.className='summary';intro.textContent=`${fmt.format(total)}本｜基本 ${base}本積み｜余り0本の候補 ${solutions.length}件を表示（基本本数を優先）`;dst.append(intro);
+  solutions.forEach((sol,i)=>{
+    const card=document.createElement('div');card.className='result';
+    const head=document.createElement('div');head.className='head';
+    const title=document.createElement('strong');title.textContent=`候補 ${i+1}　合計 ${sol.rows}列`;
+    const zero=document.createElement('span');zero.className='zero';zero.textContent='余り 0本';head.append(title,zero);card.append(head);
+    const hint=document.createElement('p');hint.className='fine';hint.textContent=`基本の${base}本積み：${sol.baseRows}列（${base*sol.baseRows}本）`;card.append(hint);
+    const chips=document.createElement('div');chips.className='chips';
+    sol.counts.forEach((columns,j)=>{if(!columns)return;const ch=document.createElement('span');ch.className='chip';ch.innerHTML=`<b>${sizes[j]}本</b> × ${columns}列`;chips.append(ch)});
+    card.append(chips);dst.append(card);
+  });
+  const foot=document.createElement('p');foot.className='fine';foot.textContent=`※ ${candidateCount}通りの基本列数を検討し、各残本数はほかの本数で最小列数になる構成を1通り選んでいます。すべての組み合わせの列挙ではありません。外径別の必要本数は考慮していません。`;dst.append(foot);
+}
+function activate(tab){const reference=tab==='reference';$('reference').classList.toggle('active',reference);$('allocation').classList.toggle('active',!reference);$('tab-reference').setAttribute('aria-selected',String(reference));$('tab-allocation').setAttribute('aria-selected',String(!reference));}
+$('tab-reference').onclick=()=>activate('reference');$('tab-allocation').onclick=()=>activate('allocation');
+renderReference();calculate();
+</script>
+</body>
+</html>
